@@ -47,10 +47,21 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
       return `${string}${string.length ? "&" : ""}` + `${item[0]}=${item[1]}`;
     }, "");
 
-    apiService.getFilteredRecipe(filterString).then((data) => {
+    const getRecipe = async () => {
+      const response = await fetch(`/api/recipe?${filterString}`);
+      const data = await response.json();
+
       setRecipeList(data);
-    });
+    };
+
+    getRecipe();
     setOpenFilter(false);
+  };
+
+  const cleanFilter = () => {
+    router.push(pathname);
+    setOpenFilter(false);
+    setFormData({});
   };
 
   useEffect(() => {
@@ -157,8 +168,7 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
                   variant="outline"
                   type="button"
                   onClick={() => {
-                    setOpenFilter(false);
-                    setFormData({});
+                    cleanFilter();
                   }}
                 >
                   Clean

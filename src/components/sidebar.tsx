@@ -13,7 +13,6 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Meal } from "@/commons/types";
-import { apiService } from "@/services/api-service";
 
 type RightSidebarProps = {
   category: string;
@@ -24,9 +23,14 @@ const RightSidebar: FC<RightSidebarProps> = ({ category }) => {
   const [recipeList, setRecipeList] = useState<Meal[]>();
 
   useEffect(() => {
-    apiService.getFilteredRecipe(`c=${category}`).then((data) => {
+    const getRecipe = async () => {
+      const response = await fetch(`/api/recipe?c=${category}`);
+      const data = await response.json();
+
       setRecipeList(data);
-    });
+    };
+
+    getRecipe();
   }, []);
 
   return (

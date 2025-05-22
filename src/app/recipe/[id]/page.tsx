@@ -5,18 +5,22 @@ import { useParams } from "next/navigation";
 import { Container, Heading } from "@chakra-ui/react";
 import { Meal } from "@/commons/types";
 import ShowRecipe from "@/components/recipe";
-import { apiService } from "@/services/api-service";
 
 const ShowRecipePage = () => {
   const params = useParams();
   const postId = params.id;
   const [meal, setMeal] = useState<Meal>();
-  
+
   useEffect(() => {
     if (typeof postId === "string") {
-      apiService.getRecipe(postId).then((data) => {
+      const getRecipe = async () => {
+        const response = await fetch(`/api/recipe/${postId}`);
+        const data = await response.json();
+
         setMeal(data);
-      });
+      };
+
+      getRecipe();
     }
   }, [postId]);
 
