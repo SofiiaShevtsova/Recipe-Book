@@ -2,7 +2,8 @@ import { apiService } from "@/services/api-service";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { id: string } }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  { params }:any
 ) => {
   try {
     const { id } = await params;
