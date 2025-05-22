@@ -2,10 +2,14 @@ import { apiService } from "@/services/api-service";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) => {
   try {
-    const id = params.id;
+    const id = context.params.id;
+
+    if (!id) {
+      return new Response("Missing recipe ID", { status: 400 });
+    }
     const recipe = await apiService.getRecipe(id);
 
     return new Response(JSON.stringify(recipe), { status: 200 });
