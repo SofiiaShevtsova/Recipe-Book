@@ -11,8 +11,6 @@ const ShowRecipePage = () => {
   const params = useParams();
   const postId = params.id;
   const [meal, setMeal] = useState<Meal>();
-
-  console.log(postId);
   
   useEffect(() => {
     if (typeof postId === "string") {
