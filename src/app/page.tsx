@@ -66,10 +66,10 @@ const Home = (): ReactElement => {
         {recipeList.map((recipe) => (
           <GridItem key={recipe.idMeal}>
             <NextLink href={`/recipe/${recipe.idMeal}`}>
-              <Card.Root maxW="sm" overflow="hidden">
+              <Card.Root maxW="sm" overflow="hidden" h='100%'>
                 <Image src={recipe.strMealThumb} alt={recipe.strMeal} />
                 <Card.Body gap="2" p="4">
-                  <Card.Title>{recipe.strMeal}</Card.Title>
+                  <Card.Title >{recipe.strMeal}</Card.Title>
                   {recipe.strInstructions && (
                     <Card.Description maxH={200} overflow="auto">
                       {recipe.strInstructions}
