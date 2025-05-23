@@ -5,8 +5,11 @@ const BASE_API_URL = process.env.NEXT_PUBLIC_BASE_API_URL || "";
 export class APIService {
   baseURL: string;
 
+  list: Meal[];
+
   constructor(baseURL: string) {
     this.baseURL = baseURL;
+    this.list = [];
   }
 
   getAllRecipe: () => Promise<Meal[]> = () =>
@@ -16,7 +19,9 @@ export class APIService {
       .then((response) =>
         response.ok ? response.json() : Promise.reject(response)
       )
-      .then((data) => data.meals)
+      .then((data) => {
+        this.list = data.meals;
+        return data.meals})
       .catch((error) => {
         throw new Error(error.statusText);
       });
@@ -61,14 +66,19 @@ export class APIService {
         throw new Error(error.statusText);
       });
 
-  getRecipe: (id: string) => Promise<Meal> = (id) =>
+  getRecipe: (id: string) => Promise<Meal[]> = (id) =>
     fetch(this.baseURL + `lookup.php?i=${id}`, {
       method: "GET",
     })
       .then((response) =>
         response.ok ? response.json() : Promise.reject(response)
       )
-      .then((data) => data.meals[0])
+      .then((data) => {
+        if (!data.meals.length) {
+          return this.list.filter((m)=>m.idMeal === id)
+        }
+        
+        return data.meals})
       .catch((error) => {
         throw new Error(error.statusText);
       });

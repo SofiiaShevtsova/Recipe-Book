@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 
 import { Container, Heading } from "@chakra-ui/react";
@@ -8,27 +8,26 @@ import ShowRecipe from "@/components/recipe";
 
 const ShowRecipePage = () => {
   const params = useParams();
-  const postId = params.id;
+  const postId = useMemo(() => params.id, [params]);
   const [meal, setMeal] = useState<Meal>();
 
   useEffect(() => {
     if (typeof postId === "string") {
       const getRecipe = async () => {
         const response = await fetch(`/api/recipe/${postId}`);
-        const data = await response.json();
-
-        setMeal(data);
+        if (response.ok) {
+          const data = await response.json();
+          setMeal(data[0]);
+        }
       };
 
       getRecipe();
     }
   }, [postId]);
 
-  if (meal) {
-    return <ShowRecipe meal={meal} />;
-  }
-
-  return (
+  return meal ? (
+    <ShowRecipe meal={meal} />
+  ) : (
     <Container>
       <Heading size="4xl" textAlign="center" mb="5">
         Not found
