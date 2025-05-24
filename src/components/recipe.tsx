@@ -22,16 +22,19 @@ type ShowRecipeProps = {
 const ShowRecipe: FC<ShowRecipeProps> = ({ meal }) => {
   const listOfIngredient = useMemo(() => {
     const list: string[] = [];
+    let ingredient = "";
     let index = 1;
-    const ingredient = meal[`strIngredient${index}`];
-    while (ingredient) {
+
+    do {
+      ingredient = meal[`strIngredient${index}`];
       if (list.includes(ingredient)) {
         index = index + 1;
       } else {
         list.push(ingredient);
         index = index + 1;
       }
-    }
+    } while (!!ingredient);
+
     return list;
   }, [meal]);
 
