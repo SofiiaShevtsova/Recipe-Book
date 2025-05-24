@@ -21,7 +21,8 @@ export class APIService {
       )
       .then((data) => {
         this.list = data.meals;
-        return data.meals})
+        return data.meals;
+      })
       .catch((error) => {
         throw new Error(error.statusText);
       });
@@ -66,7 +67,7 @@ export class APIService {
         throw new Error(error.statusText);
       });
 
-  getRecipe: (id: string) => Promise<Meal[]> = (id) =>
+  getRecipe: (id: string) => Promise<Meal> = (id) =>
     fetch(this.baseURL + `lookup.php?i=${id}`, {
       method: "GET",
     })
@@ -74,11 +75,12 @@ export class APIService {
         response.ok ? response.json() : Promise.reject(response)
       )
       .then((data) => {
-        if (!data.meals.length) {
-          return this.list.filter((m)=>m.idMeal === id)
+        if (data.meals && data.meals.length) {
+          return data.meals[0];
         }
-        
-        return data.meals})
+
+        return this.list.find((m) => m.idMeal === id) || null;
+      })
       .catch((error) => {
         throw new Error(error.statusText);
       });

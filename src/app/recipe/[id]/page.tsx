@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 
 import { Container, Heading } from "@chakra-ui/react";
@@ -7,25 +7,26 @@ import { Meal } from "@/commons/types";
 import ShowRecipe from "@/components/recipe";
 
 const ShowRecipePage = () => {
-  const params = useParams();
-  const postId = useMemo(() => params.id, [params]);
+  const { id: recipeId } = useParams();
   const [meal, setMeal] = useState<Meal>();
 
   useEffect(() => {
-    if (typeof postId === "string") {
+    if (typeof recipeId === "string") {
       const getRecipe = async () => {
-        const response = await fetch(`/api/recipe/${postId}`);
+        const response = await fetch(`/api/recipe/${recipeId}`);
         if (response.ok) {
           const data = await response.json();
-          setMeal(data[0]);
+          console.log("Fetched data from API:", structuredClone(data));
+
+          setMeal(data);
         }
       };
 
       getRecipe();
     }
-  }, [postId]);
+  }, [recipeId]);
 
-  return meal ? (
+  return meal?.idMeal ? (
     <ShowRecipe meal={meal} />
   ) : (
     <Container>

@@ -14,7 +14,10 @@ export const GET = async (
     const recipe = await apiService.getRecipe(id);
 
     if (recipe) {
-      return new Response(JSON.stringify(recipe), { status: 200 });
+      return new Response(JSON.stringify(recipe), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
     } else {
       return new Response("Not found", { status: 404 });
     }

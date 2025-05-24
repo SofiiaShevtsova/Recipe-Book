@@ -20,6 +20,8 @@ type ShowRecipeProps = {
 };
 
 const ShowRecipe: FC<ShowRecipeProps> = ({ meal }) => {
+  console.log(meal);
+  
   const listOfIngredient = useMemo(() => {
     const list: string[] = [];
     let index = 1;
