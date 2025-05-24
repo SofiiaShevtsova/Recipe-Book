@@ -46,10 +46,12 @@ const RightSidebar: FC<RightSidebarProps> = ({ category }) => {
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
-          <Drawer.Content p="6" maxWidth={500}>
-            <NextLink href={`/?c=${category}`}>To other recipe</NextLink>
+          <Drawer.Content p="6" maxWidth={500} height="100vh" overflow="auto">
+            <NextLink href={`/?c=${category}`}>
+              <Button p="4">To other recipe</Button>
+            </NextLink>
             {recipeList?.length && (
-              <Grid templateColumns="repeat(2, 1fr)" gap="6">
+              <Grid mt="10" templateColumns="repeat(2, 1fr)" gap="6">
                 {recipeList.map((recipe) => (
                   <GridItem key={recipe.idMeal}>
                     <NextLink href={`/recipe/${recipe.idMeal}`}>
