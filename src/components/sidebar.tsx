@@ -31,7 +31,7 @@ const RightSidebar: FC<RightSidebarProps> = ({ category }) => {
     };
 
     getRecipe();
-  }, []);
+  }, [category]);
 
   return (
     <Drawer.Root

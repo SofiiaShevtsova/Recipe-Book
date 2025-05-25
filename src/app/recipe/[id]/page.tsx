@@ -1,7 +1,8 @@
 import { Container, Text } from "@chakra-ui/react";
 import ShowRecipe from "@/components/recipe";
 
-const ShowRecipePage = async ({ params }: { params: { id: string } }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ShowRecipePage = async ({ params }: any) => {
   const { id } = await params;
 
   return id ? (
