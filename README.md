@@ -1,8 +1,8 @@
-##Recipe Book App
+# Recipe Book App
 
 Welcome to the Recipe Book App, a web application for managing and displaying your favorite recipes! This project is built with Next.js for a fast and efficient frontend, and styled with Chakra UI for a beautiful and accessible user interface.
 
-#Live Demo
+## Live Demo
 
 You can explore the live version of the application here:
 https://recipe-book-ashen-beta.vercel.app/
