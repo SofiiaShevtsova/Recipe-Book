@@ -105,7 +105,7 @@ const RecipeList = (): ReactElement => {
         </>
       ) : (
         <Text fontSize="24px" textAlign="center" mt="10">
-          Empty list
+          ...Loading
         </Text>
       )}
     </Container>
