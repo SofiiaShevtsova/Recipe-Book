@@ -76,14 +76,14 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
   return (
     <Drawer.Root open={openFilter} onOpenChange={(e) => setOpenFilter(e.open)}>
       <Drawer.Trigger asChild>
-        <Button mb="4" variant="outline" p="4">
+        <Button colorPalette="teal" mb="4" variant="outline">
           Open Filter
         </Button>
       </Drawer.Trigger>
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
-          <Drawer.Content p="6" maxWidth={500}>
+          <Drawer.Content maxWidth={500}>
             <form
               style={{
                 height: "100%",
@@ -97,15 +97,16 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
               }}
             >
               <Drawer.Header mt="10" mb="4">
-                <Drawer.Title>Filter</Drawer.Title>
+                <Drawer.Title color='teal.700'>Filter</Drawer.Title>
               </Drawer.Header>
               <Drawer.Body>
                 <Stack
                   gap="8"
                   maxW="sm"
+                  color='teal.700'
                   css={{ "--field-label-width": "150px" }}
                 >
-                  <Field.Root orientation="horizontal">
+                  <Field.Root orientation="horizontal" colorPalette="teal">
                     <Field.Label>Filtered By Ingredient</Field.Label>
                     <Input
                       placeholder="...type"
@@ -116,7 +117,7 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
                     />
                   </Field.Root>
 
-                  <Field.Root orientation="horizontal">
+                  <Field.Root orientation="horizontal" colorPalette="teal">
                     <Field.Label>Filtered By Country</Field.Label>
                     <NativeSelect.Root size="sm" width="240px">
                       <NativeSelect.Field
@@ -138,7 +139,7 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
                       <NativeSelect.Indicator />
                     </NativeSelect.Root>
                   </Field.Root>
-                  <Field.Root orientation="horizontal">
+                  <Field.Root orientation="horizontal" colorPalette="teal">
                     <Field.Label>Filtered By Category</Field.Label>
                     <NativeSelect.Root size="sm" width="240px">
                       <NativeSelect.Field
@@ -164,6 +165,7 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
               </Drawer.Body>
               <Drawer.Footer>
                 <Button
+                  colorPalette="teal"
                   w={100}
                   variant="outline"
                   type="button"
@@ -173,7 +175,7 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
                 >
                   Clean
                 </Button>
-                <Button w={100} p="4" type="submit">
+                <Button colorPalette="teal" w={100} type="submit">
                   Save
                 </Button>
               </Drawer.Footer>

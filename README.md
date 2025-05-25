@@ -1,14 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Recipe Book App
 
-For start install dependencies with command 
+Welcome to the Recipe Book App, a web application for managing and displaying your favorite recipes! This project is built with Next.js for a fast and efficient frontend, and styled with Chakra UI for a beautiful and accessible user interface.
 
-npm install
-# or
-yarn install
+## Live Demo
+
+You can explore the live version of the application here:
+https://recipe-book-ashen-beta.vercel.app/
 
 ## Getting Started
 
-First, run the development server:
+To get a local copy of the project up and running, follow these simple steps.
+
+Prerequisites
+Make sure you have Node.js and a package manager (npm, yarn, pnpm, or bun) installed on your system.
+
+Installation
+Clone the repository:
+Bash
+```bash
+git clone https://github.com/SofiiaShevtsova/Recipe-Book
+```
+
+Navigate to the project directory:
+Bash
+
+cd recipe-book-app
+Install the dependencies using your preferred package manager:
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+
+Running the Development Server
+Once the dependencies are installed, you can start the development server:
 
 ```bash
 npm run dev
@@ -20,6 +51,8 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000 in your browser to see the application in action. The app will automatically reload if you make any changes to the source code.
 
-This is a result.
+Technologies Used
+Next.js: A React framework for building fast and scalable web applications.
+Chakra UI: A simple, modular and accessible component library for React applications.
