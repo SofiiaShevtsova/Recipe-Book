@@ -1,4 +1,3 @@
-"use client";
 import { ReactElement, Suspense } from "react";
 
 import RecipeList from "@/components/recipe-list";
