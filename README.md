@@ -17,9 +17,10 @@ Make sure you have Node.js and a package manager (npm, yarn, pnpm, or bun) insta
 Installation
 Clone the repository:
 Bash
+```bash
+git clone https://github.com/SofiiaShevtsova/Recipe-Book
+```
 
-git clone [repository-url]
-(Replace [repository-url] with the actual URL of your project's GitHub repository)
 Navigate to the project directory:
 Bash
 
