@@ -54,17 +54,20 @@ export const ColorModeButton = React.forwardRef<
   HTMLButtonElement,
   ColorModeButtonProps
 >(function ColorModeButton(props, ref) {
-  const { toggleColorMode } = useColorMode()
+  const { toggleColorMode } = useColorMode();
   return (
     <ClientOnly fallback={<Skeleton boxSize="8" />}>
       <IconButton
         onClick={toggleColorMode}
-        variant="ghost"
+        colorPalette="teal"
         aria-label="Toggle color mode"
         size="sm"
         ref={ref}
         {...props}
         css={{
+          position: "fixed",
+          bottom: "20px",
+          right: "20px",
           _icon: {
             width: "5",
             height: "5",
@@ -74,8 +77,8 @@ export const ColorModeButton = React.forwardRef<
         <ColorModeIcon />
       </IconButton>
     </ClientOnly>
-  )
-})
+  );
+});
 
 export const LightMode = React.forwardRef<HTMLSpanElement, SpanProps>(
   function LightMode(props, ref) {

@@ -1,9 +1,17 @@
 export type Meal = {
-  idMeal: string;
-  strArea: string;
-  strCategory: string;
+  _id: string;
+  area: string;
+  category: string;
   strMeal: string;
-  strMealThumb: string;
-  strInstructions:string;
-  [key:string]:string;
+  image: string;
+  strInstructions: string;
+  [key: string]: string;
 };
+
+export type FilterOptions = { areaList?: string[]; categories?: string[] };
+
+export type Filters = {
+      area?: string;
+      category?: string;
+      ingredient?: string;
+    }

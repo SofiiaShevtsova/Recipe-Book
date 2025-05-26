@@ -1,5 +1,5 @@
 "use client";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
 import {
   Button,
@@ -11,79 +11,52 @@ import {
   Portal,
   Stack,
 } from "@chakra-ui/react";
-import { Meal } from "@/commons/types";
-import { apiService } from "@/services/api-service";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import { FilterOptions, Filters } from "@/commons/types";
+
 type FilterProps = {
-  setRecipeList: (list: Meal[]) => void;
-  formData: {
-    i?: string;
-    a?: string;
-    c?: string;
-  };
-  setFormData: Dispatch<
-    SetStateAction<{
-      i?: string;
-      a?: string;
-      c?: string;
-    }>
-  >;
+  filters: Filters;
+  filterOptions: FilterOptions;
 };
 
-const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
+const Filter: FC<FilterProps> = ({ filters, filterOptions }) => {
   const [openFilter, setOpenFilter] = useState(false);
-  const [categoriesList, setCategoriesList] = useState<string[]>();
-  const [areaList, setAreaList] = useState<string[]>();
+  const [newFilter, setNewFilter] = useState(filters);
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
   const handleFilterList = () => {
-    const filterString = Object.entries(formData).reduce((string, item) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(item[0], item[1]);
-      router.push(pathname + "?" + params.toString());
-      return `${string}${string.length ? "&" : ""}` + `${item[0]}=${item[1]}`;
-    }, "");
+    const params = new URLSearchParams(searchParams.toString());
 
-    const getRecipe = async () => {
-      const response = await fetch(`/api/recipe?${filterString}`);
-      const data = await response.json();
+    Object.entries(newFilter).forEach(([key, value]) => {
+      if (value) {
+        params.set(key, value);
+      }
+    });
 
-      setRecipeList(data);
-    };
+    router.push(pathname + "?" + params.toString());
 
-    getRecipe();
     setOpenFilter(false);
   };
 
   const cleanFilter = () => {
     router.push(pathname);
     setOpenFilter(false);
-    setFormData({});
   };
-
-  useEffect(() => {
-    apiService.getAllCategories().then((data) => {
-      setCategoriesList(data);
-    });
-    apiService.getAllArea().then((data) => {
-      setAreaList(data);
-    });
-  }, []);
 
   return (
     <Drawer.Root open={openFilter} onOpenChange={(e) => setOpenFilter(e.open)}>
       <Drawer.Trigger asChild>
-        <Button mb="4" variant="outline" p="4">
+        <Button colorPalette="teal" mb="4" variant="outline">
           Open Filter
         </Button>
       </Drawer.Trigger>
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
-          <Drawer.Content p="6" maxWidth={500}>
+          <Drawer.Content maxWidth={500}>
             <form
               style={{
                 height: "100%",
@@ -97,39 +70,44 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
               }}
             >
               <Drawer.Header mt="10" mb="4">
-                <Drawer.Title>Filter</Drawer.Title>
+                <Drawer.Title color="teal.700">Filter</Drawer.Title>
               </Drawer.Header>
               <Drawer.Body>
                 <Stack
                   gap="8"
                   maxW="sm"
+                  color="teal.700"
                   css={{ "--field-label-width": "150px" }}
                 >
-                  <Field.Root orientation="horizontal">
+                  <Field.Root orientation="horizontal" colorPalette="teal">
                     <Field.Label>Filtered By Ingredient</Field.Label>
                     <Input
                       placeholder="...type"
                       flex="1"
+                      value={newFilter.ingredient}
                       onChange={({ target: { value } }) => {
-                        setFormData((prev) => ({ ...prev, i: value }));
+                        setNewFilter((prev) => ({
+                          ...prev,
+                          ingredient: value,
+                        }));
                       }}
                     />
                   </Field.Root>
 
-                  <Field.Root orientation="horizontal">
+                  <Field.Root orientation="horizontal" colorPalette="teal">
                     <Field.Label>Filtered By Country</Field.Label>
-                    <NativeSelect.Root size="sm" width="240px">
+                    <NativeSelect.Root width="240px">
                       <NativeSelect.Field
                         placeholder="Select option"
-                        value={formData.a}
+                        value={newFilter.area}
                         onChange={(e) => {
-                          setFormData((prev) => ({
+                          setNewFilter((prev) => ({
                             ...prev,
-                            a: e.target.value,
+                            area: e.target.value,
                           }));
                         }}
                       >
-                        {areaList?.map((a) => (
+                        {filterOptions.areaList?.map((a) => (
                           <option key={a} value={a}>
                             {a}
                           </option>
@@ -138,20 +116,20 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
                       <NativeSelect.Indicator />
                     </NativeSelect.Root>
                   </Field.Root>
-                  <Field.Root orientation="horizontal">
+                  <Field.Root orientation="horizontal" colorPalette="teal">
                     <Field.Label>Filtered By Category</Field.Label>
-                    <NativeSelect.Root size="sm" width="240px">
+                    <NativeSelect.Root width="240px">
                       <NativeSelect.Field
                         placeholder="Select option"
-                        value={formData.c}
+                        value={newFilter.category}
                         onChange={(e) => {
-                          setFormData((prev) => ({
+                          setNewFilter((prev) => ({
                             ...prev,
-                            c: e.target.value,
+                            category: e.target.value,
                           }));
                         }}
                       >
-                        {categoriesList?.map((c) => (
+                        {filterOptions.categories?.map((c) => (
                           <option key={c} value={c}>
                             {c}
                           </option>
@@ -164,6 +142,7 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
               </Drawer.Body>
               <Drawer.Footer>
                 <Button
+                  colorPalette="teal"
                   w={100}
                   variant="outline"
                   type="button"
@@ -173,7 +152,7 @@ const Filter: FC<FilterProps> = ({ setRecipeList, formData, setFormData }) => {
                 >
                   Clean
                 </Button>
-                <Button w={100} p="4" type="submit">
+                <Button colorPalette="teal" w={100} type="submit">
                   Save
                 </Button>
               </Drawer.Footer>

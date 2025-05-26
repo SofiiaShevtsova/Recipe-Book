@@ -1,5 +1,4 @@
-"use client";
-import { ReactElement, useEffect, useMemo, useState } from "react";
+import { FC, ReactElement } from "react";
 import NextLink from "next/link";
 
 import {
@@ -11,70 +10,68 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { Meal } from "@/commons/types";
-import Filter from "@/components/filter";
-import { useSearchParams } from "next/navigation";
+import Filter from "./filter";
+import { FilterOptions, Filters, Meal } from "@/commons/types";
 
-const RecipeList = (): ReactElement => {
-  const searchParams = useSearchParams();
+type RecipeListProps = {
+  list: Meal[];
+  filters: Filters;
+  filterOptions: FilterOptions;
+};
 
-  const [recipeList, setRecipeList] = useState<Meal[] | []>([]);
-  const [formData, setFormData] = useState<{
-    i?: string;
-    a?: string;
-    c?: string;
-  }>({});
-
-  const filterList = useMemo(
-    () => Object.values(formData).filter((v) => v),
-    [formData]
-  );
-
-  useEffect(() => {
-    const getRecipe = async () => {
-      const response = await fetch(`/api/recipe?${searchParams.toString()}`);
-      const data = await response.json();
-
-      setRecipeList(data);
-    };
-
-    getRecipe();
-  }, [filterList, searchParams]);
+const RecipeList: FC<RecipeListProps> = ({
+  list,
+  filters,
+  filterOptions,
+}): ReactElement => {
+  const activeFilters = Object.values(filters).filter((v) => !!v);
 
   return (
-    <Container p="4" m="auto">
-      <Heading size="4xl" textAlign="center" mb="5">
-        {filterList.length ? filterList.join("-") : "Recipe book"}
+    <Container minH="100vh" py="4">
+      <Heading color="teal.700" size="4xl" textAlign="center" mb="5">
+        {activeFilters.length ? activeFilters.join("-") : "Recipe book"}
       </Heading>
-      <Filter
-        setRecipeList={setRecipeList}
-        formData={formData}
-        setFormData={setFormData}
-      />
-      {recipeList.length ? (
-        <Grid templateColumns="repeat(4, 1fr)" gap="6">
-          {recipeList.map((recipe) => (
-            <GridItem key={recipe.idMeal}>
-              <NextLink href={`/recipe/${recipe.idMeal}`}>
-                <Card.Root maxW="sm" overflow="hidden" h="100%">
-                  <Image src={recipe.strMealThumb} alt={recipe.strMeal} />
-                  <Card.Body gap="2" p="4">
+      <Filter filters={filters} filterOptions={filterOptions} />
+      {list.length ? (
+        <Grid
+          templateColumns={[
+            "repeat(1, 1fr)",
+            "repeat(2, 1fr)",
+            "repeat(3, 1fr)",
+            "repeat(4, 1fr)",
+          ]}
+          gap="6"
+          justifyContent="center"
+        >
+          {list.map((recipe) => (
+            <GridItem key={recipe._id}>
+              <NextLink href={`/recipe/${recipe._id}`}>
+                <Card.Root
+                  overflow="hidden"
+                  h="100%"
+                  color="teal.700"
+                  colorPalette="teal"
+                >
+                  <Image src={recipe.image} alt={recipe.strMeal} />
+                  <Card.Body gap="2">
                     <Card.Title>{recipe.strMeal}</Card.Title>
                     {recipe.strInstructions && (
-                      <Card.Description maxH={200} overflow="auto">
+                      <Card.Description
+                        color="teal.300"
+                        maxH={200}
+                        overflow="auto"
+                      >
                         {recipe.strInstructions}
                       </Card.Description>
                     )}
-                    {(recipe.strCategory || recipe.strArea) && (
+                    {(recipe.category || recipe.area) && (
                       <Text
                         textStyle="2xl"
                         fontWeight="medium"
                         letterSpacing="tight"
                         mt="2"
                       >
-                        {`${recipe.strCategory || "-"} | ${
-                          recipe.strArea || "-"
-                        } `}
+                        {`${recipe.category || "-"} | ${recipe.area || "-"} `}
                       </Text>
                     )}
                   </Card.Body>
@@ -85,7 +82,9 @@ const RecipeList = (): ReactElement => {
           ))}
         </Grid>
       ) : (
-        <Text textAlign="center">Empty list</Text>
+        <Text fontSize="24px" textAlign="center" mt="10">
+          Empty list
+        </Text>
       )}
     </Container>
   );

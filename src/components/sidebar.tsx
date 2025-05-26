@@ -39,33 +39,45 @@ const RightSidebar: FC<RightSidebarProps> = ({ category }) => {
       onOpenChange={(e) => setOpenRightSidebar(e.open)}
     >
       <Drawer.Trigger asChild>
-        <Button mb="4" variant="outline" p="4">
+        <Button mb="4" variant="outline" colorPalette="teal">
           Open Similar Recipe
         </Button>
       </Drawer.Trigger>
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
-          <Drawer.Content p="6" maxWidth={500} height="100vh" overflow="auto">
-            <NextLink href={`/?c=${category}`}>
-              <Button p="4">To other recipe</Button>
-            </NextLink>
+          <Drawer.Content maxWidth={500} height="100vh" overflow="auto" p="6">
             {recipeList?.length && (
-              <Grid mt="10" templateColumns="repeat(2, 1fr)" gap="6">
+              <Grid
+                mt="12"
+                templateColumns={[
+                  "repeat(1, 1fr)",
+                  undefined,
+                  "repeat(2, 1fr)",
+                ]}
+                gap="6"
+              >
                 {recipeList.map((recipe) => (
                   <GridItem key={recipe.idMeal}>
                     <NextLink href={`/recipe/${recipe.idMeal}`}>
-                      <Card.Root maxW="sm" overflow="hidden">
+                      <Card.Root overflow="hidden">
                         <Image src={recipe.strMealThumb} alt={recipe.strMeal} />
-                        <Card.Body gap="2" p="4">
-                          <Card.Title>{recipe.strMeal}</Card.Title>
+                        <Card.Body gap="2">
+                          <Card.Title color="teal.700">
+                            {recipe.strMeal}
+                          </Card.Title>
                           {recipe.strInstructions && (
-                            <Card.Description maxH={200} overflow="auto">
+                            <Card.Description
+                              color="teal.500"
+                              maxH={200}
+                              overflow="auto"
+                            >
                               {recipe.strInstructions}
                             </Card.Description>
                           )}
                           {(recipe.strCategory || recipe.strArea) && (
                             <Text
+                              color="teal.700"
                               textStyle="2xl"
                               fontWeight="medium"
                               letterSpacing="tight"
@@ -84,6 +96,16 @@ const RightSidebar: FC<RightSidebarProps> = ({ category }) => {
                 ))}
               </Grid>
             )}
+            <NextLink href={`/?category=${category}`}>
+              <Button
+                colorPalette="teal"
+                position="fixed"
+                top="20px"
+                right="40px"
+              >
+                To other recipe
+              </Button>
+            </NextLink>
           </Drawer.Content>
         </Drawer.Positioner>
       </Portal>
