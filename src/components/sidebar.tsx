@@ -34,7 +34,7 @@ const RightSidebar: FC<RightSidebarProps> = ({ category, list }) => {
       <Portal>
         <Drawer.Backdrop />
         <Drawer.Positioner>
-          <Drawer.Content maxWidth={500} height="100vh" overflow="auto" p="6">
+          <Drawer.Content maxWidth={700} height="100vh" overflow="auto" p="6">
             {list?.length && (
               <Grid
                 mt="12"
