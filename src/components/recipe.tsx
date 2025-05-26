@@ -13,12 +13,13 @@ import {
 } from "@chakra-ui/react";
 import { Meal } from "@/commons/types";
 import RightSidebar from "./sidebar";
+import Recipe from "@/models/recipe";
 
 type ShowRecipeProps = {
   meal: Meal;
 };
 
-const ShowRecipe: FC<ShowRecipeProps> = ({ meal }) => {
+const ShowRecipe: FC<ShowRecipeProps> = async ({ meal }) => {
   const listOfIngredient = () => {
     const list: string[] = [];
     let ingredient = "";
@@ -37,10 +38,21 @@ const ShowRecipe: FC<ShowRecipeProps> = ({ meal }) => {
     return list;
   };
 
+  const recipeWithCategory = [];
+
+  try {
+    const recipeList = await Recipe.find({
+      category: { $regex: meal.category, $options: "i" },
+    });
+    recipeWithCategory.push(...recipeList);
+  } catch (error) {
+    console.error("Failed to fetch recipes:", error);
+  }
+
   return (
     <Container minH="100vh" py="4">
       <Stack alignItems="flex-start">
-        <RightSidebar category={meal.category} />
+        <RightSidebar category={meal.category} list={recipeWithCategory} />
         <Card.Root
           alignSelf="center"
           flexDirection="row"

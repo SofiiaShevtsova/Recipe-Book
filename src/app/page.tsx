@@ -2,15 +2,8 @@ import { FilterOptions } from "@/commons/types";
 import RecipeList from "@/components/recipe-list";
 import Recipe from "@/models/recipe";
 
-interface HomePageProps {
-  searchParams: {
-    area?: string;
-    ingredient?: string;
-    category?: string;
-  };
-}
-
-const Home = async ({ searchParams }: HomePageProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Home = async ({ searchParams }: any) => {
   let allRecipe = [];
   const filtersOptions: FilterOptions = {};
 

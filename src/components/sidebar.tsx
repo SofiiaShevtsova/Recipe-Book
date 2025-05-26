@@ -1,5 +1,5 @@
 "use client";
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import NextLink from "next/link";
 
 import {
@@ -16,22 +16,11 @@ import { Meal } from "@/commons/types";
 
 type RightSidebarProps = {
   category: string;
+  list: Meal[];
 };
 
-const RightSidebar: FC<RightSidebarProps> = ({ category }) => {
+const RightSidebar: FC<RightSidebarProps> = ({ category, list }) => {
   const [openRightSidebar, setOpenRightSidebar] = useState(false);
-  const [recipeList, setRecipeList] = useState<Meal[]>();
-
-  useEffect(() => {
-    const getRecipe = async () => {
-      const response = await fetch(`/api/recipe?c=${category}`);
-      const data = await response.json();
-
-      setRecipeList(data);
-    };
-
-    getRecipe();
-  }, []);
 
   return (
     <Drawer.Root
@@ -47,7 +36,7 @@ const RightSidebar: FC<RightSidebarProps> = ({ category }) => {
         <Drawer.Backdrop />
         <Drawer.Positioner>
           <Drawer.Content maxWidth={500} height="100vh" overflow="auto" p="6">
-            {recipeList?.length && (
+            {list?.length && (
               <Grid
                 mt="12"
                 templateColumns={[
@@ -57,7 +46,7 @@ const RightSidebar: FC<RightSidebarProps> = ({ category }) => {
                 ]}
                 gap="6"
               >
-                {recipeList.map((recipe) => (
+                {list.map((recipe) => (
                   <GridItem key={recipe.idMeal}>
                     <NextLink href={`/recipe/${recipe.idMeal}`}>
                       <Card.Root overflow="hidden">

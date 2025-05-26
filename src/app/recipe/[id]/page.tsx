@@ -4,7 +4,8 @@ import Recipe from "@/models/recipe";
 import ShowRecipe from "@/components/recipe";
 import { Meal } from "@/commons/types";
 
-const ShowRecipePage = async ({ params }: { params: { id: string } }) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ShowRecipePage = async ({ params }: any) => {
   const { id } = await params;
   let meal: Meal | null = null;
   if (id) {
