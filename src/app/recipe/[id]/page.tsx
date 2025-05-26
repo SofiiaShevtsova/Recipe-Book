@@ -10,7 +10,7 @@ const ShowRecipePage = async ({ params }: any) => {
   let meal: Meal | null = null;
   if (id) {
     try {
-      meal = await Recipe.findById(id);
+      meal = JSON.parse(JSON.stringify(await Recipe.findById(id)));
     } catch (er) {
       console.error("Not found", er);
     }

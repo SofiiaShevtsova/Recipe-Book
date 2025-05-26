@@ -46,7 +46,7 @@ const Home = async ({ searchParams }: any) => {
     if (orConditions.length > 0) {
       filter.$or = orConditions;
     }
-    allRecipe = await Recipe.find(filter);
+    allRecipe = JSON.parse(JSON.stringify(await Recipe.find(filter)));
 
     return (
       <RecipeList

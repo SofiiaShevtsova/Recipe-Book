@@ -20,23 +20,10 @@ type ShowRecipeProps = {
 };
 
 const ShowRecipe: FC<ShowRecipeProps> = async ({ meal }) => {
-  const listOfIngredient = () => {
-    const list: string[] = [];
-    let ingredient = "";
-    let index = 1;
-
-    do {
-      ingredient = meal[`strIngredient${index}`];
-      if (list.includes(ingredient)) {
-        index = index + 1;
-      } else {
-        list.push(ingredient);
-        index = index + 1;
-      }
-    } while (!!ingredient);
-
-    return list;
-  };
+  const listOfIngredient = () =>
+    Object.entries(meal)
+      .filter(([key, value]) => key.startsWith("strIngredient") && value)
+      .map((item) => item[1]);
 
   const recipeWithCategory: Meal[] = [];
 
