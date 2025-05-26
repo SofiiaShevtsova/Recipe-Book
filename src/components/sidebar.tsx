@@ -10,7 +10,6 @@ import {
   GridItem,
   Portal,
   Image,
-  Text,
 } from "@chakra-ui/react";
 import { Meal } from "@/commons/types";
 
@@ -47,10 +46,10 @@ const RightSidebar: FC<RightSidebarProps> = ({ category, list }) => {
                 gap="6"
               >
                 {list.map((recipe) => (
-                  <GridItem key={recipe.idMeal}>
-                    <NextLink href={`/recipe/${recipe.idMeal}`}>
+                  <GridItem key={recipe._id}>
+                    <NextLink href={`/recipe/${recipe._id}`}>
                       <Card.Root overflow="hidden">
-                        <Image src={recipe.strMealThumb} alt={recipe.strMeal} />
+                        <Image src={recipe.image} alt={recipe.strMeal} />
                         <Card.Body gap="2">
                           <Card.Title color="teal.700">
                             {recipe.strMeal}
@@ -63,19 +62,6 @@ const RightSidebar: FC<RightSidebarProps> = ({ category, list }) => {
                             >
                               {recipe.strInstructions}
                             </Card.Description>
-                          )}
-                          {(recipe.strCategory || recipe.strArea) && (
-                            <Text
-                              color="teal.700"
-                              textStyle="2xl"
-                              fontWeight="medium"
-                              letterSpacing="tight"
-                              mt="2"
-                            >
-                              {`${recipe.strCategory || "-"} | ${
-                                recipe.strArea || "-"
-                              } `}
-                            </Text>
                           )}
                         </Card.Body>
                         <Card.Footer></Card.Footer>

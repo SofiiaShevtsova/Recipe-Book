@@ -1,17 +1,16 @@
 import { FilterOptions } from "@/commons/types";
 import RecipeList from "@/components/recipe-list";
 import Recipe from "@/models/recipe";
+import { Container, Heading } from "@chakra-ui/react";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Home = async ({ searchParams }: any) => {
   let allRecipe = [];
   const filtersOptions: FilterOptions = {};
 
-  const area = searchParams.area || "";
-  const ingredient = searchParams.ingredient || "";
-  const category = searchParams.category || "";
-
   try {
+    const { area, ingredient, category } = await searchParams;
+
     const categories = await Recipe.distinct("category");
     const areaList = await Recipe.distinct("area");
 
@@ -48,16 +47,23 @@ const Home = async ({ searchParams }: any) => {
       filter.$or = orConditions;
     }
     allRecipe = await Recipe.find(filter);
+
+    return (
+      <RecipeList
+        list={allRecipe}
+        filters={{ category, area, ingredient }}
+        filterOptions={filtersOptions}
+      />
+    );
   } catch (error) {
     console.error("Failed to fetch recipes:", error);
   }
-
   return (
-    <RecipeList
-      list={allRecipe}
-      filters={{ category, area, ingredient }}
-      filterOptions={filtersOptions}
-    />
+    <Container>
+      <Heading size="4xl" textAlign="center" mb="5">
+        Server doesn&apos;t work
+      </Heading>
+    </Container>
   );
 };
 

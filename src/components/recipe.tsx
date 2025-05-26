@@ -38,12 +38,16 @@ const ShowRecipe: FC<ShowRecipeProps> = async ({ meal }) => {
     return list;
   };
 
-  const recipeWithCategory = [];
+  const recipeWithCategory: Meal[] = [];
 
   try {
-    const recipeList = await Recipe.find({
-      category: { $regex: meal.category, $options: "i" },
-    });
+    const recipeList: Meal[] = JSON.parse(
+      JSON.stringify(
+        await Recipe.find({
+          category: { $regex: meal.category, $options: "i" },
+        })
+      )
+    );
     recipeWithCategory.push(...recipeList);
   } catch (error) {
     console.error("Failed to fetch recipes:", error);
