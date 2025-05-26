@@ -21,9 +21,13 @@ type ShowRecipeProps = {
 
 const ShowRecipe: FC<ShowRecipeProps> = async ({ meal }) => {
   const listOfIngredient = () =>
-    Object.entries(meal)
-      .filter(([key, value]) => key.startsWith("strIngredient") && value)
-      .map((item) => item[1]);
+    Object.entries(meal).map(([key, value]) => {
+      if (key.startsWith("strIngredient") && value) {
+        const measure = meal[`strMeasure${key.slice(13)}`];
+
+        return { label: `${value}-${measure}`, value };
+      }
+    });
 
   const recipeWithCategory: Meal[] = [];
 
@@ -82,9 +86,9 @@ const ShowRecipe: FC<ShowRecipeProps> = async ({ meal }) => {
                 {listOfIngredient().length &&
                   listOfIngredient().map((i) =>
                     i ? (
-                      <NextLink key={i} href={`/?ingredient=${i}`}>
+                      <NextLink key={i.value} href={`/?ingredient=${i.value}`}>
                         <Badge p="2" colorPalette="teal">
-                          {i}
+                          {i.label}
                         </Badge>
                       </NextLink>
                     ) : null
